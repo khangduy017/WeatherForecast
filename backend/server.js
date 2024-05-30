@@ -26,3 +26,5 @@ process.on('unhandledRejection', (err) => {
         process.exit(1); // 0 is success, 1 is uncaught exception
     });
 });
+
+module.exports = server;
