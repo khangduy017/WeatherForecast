@@ -27,4 +27,4 @@ process.on('unhandledRejection', (err) => {
     });
 });
 
-module.exports = server;
+export default server;
