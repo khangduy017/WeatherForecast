@@ -37,7 +37,7 @@ class DayForecastWidget extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 30),
-        if (forecastWeather.isNotEmpty && widthScreen > 1000)
+        if (forecastWeather.isNotEmpty && widthScreen > 1400)
           Row(
             children: [
               DayForecastItem(
@@ -51,7 +51,7 @@ class DayForecastWidget extends StatelessWidget {
               DayForecastItem(forecastWeather: forecastWeather[3]),
             ],
           ),
-        if (forecastWeather.isNotEmpty && widthScreen <= 1000)
+        if (forecastWeather.isNotEmpty && widthScreen <= 1400)
           Column(
             children: [
               Row(

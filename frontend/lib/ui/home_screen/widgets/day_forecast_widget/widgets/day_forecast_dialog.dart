@@ -59,13 +59,23 @@ class _DayForecastDialogState extends State<DayForecastDialog> {
       EasyLoading.dismiss();
     }
     final screenSize = MediaQuery.of(context).size;
+    double widthValue = screenSize.width * 0.4;
+    if (screenSize.width <= 650) {
+      widthValue = screenSize.width * 0.85;
+    } else if (screenSize.width <= 900) {
+      widthValue = screenSize.width * 0.7;
+    } else if (screenSize.width <= 1100) {
+      widthValue = screenSize.width * 0.6;
+    } else if (screenSize.width <= 1300) {
+      widthValue = screenSize.width * 0.5;
+    }
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       backgroundColor: Colors.white,
       contentPadding: EdgeInsets.zero,
       content: Container(
-        width: screenSize.width * 0.4,
+        width: widthValue,
         height: screenSize.height * 0.8,
         padding: const EdgeInsets.all(10),
         decoration: const BoxDecoration(

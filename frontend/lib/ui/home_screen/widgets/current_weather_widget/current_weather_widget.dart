@@ -52,8 +52,8 @@ class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
   Widget build(BuildContext context) {
     double widthScreen = MediaQuery.of(context).size.width;
     double paddingRight = 70;
-    if (widthScreen <= 900) {
-      paddingRight = widthScreen * 0.04;
+    if (widthScreen <= 1050) {
+      paddingRight = widthScreen * 0.03;
     }
     logger.d('Rebuild');
     if (preCurrentWeather != widget.currentWeather) {
@@ -73,57 +73,67 @@ class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                flex: 5,
+                flex: widthScreen > 500 ? 5 : 6,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       '${widget.currentWeather.cityName ?? ''} (${widget.currentWeather.time ?? ''})',
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: Colors.white,
-                          fontSize: 28,
+                          fontSize: widthScreen < 600
+                              ? widthScreen > 500
+                                  ? 24
+                                  : 20
+                              : 28,
                           fontWeight: FontWeight.w600),
                     ),
-                    const SizedBox(
-                      height: 16,
+                    SizedBox(
+                      height: widthScreen > 500 ? 16 : 10,
                     ),
                     Text(
                         'Temperature: ${widget.currentWeather.temperature ?? 0}°C',
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 22)),
-                    const SizedBox(
-                      height: 12,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: widthScreen > 500 ? 22 : 16)),
+                    SizedBox(
+                      height: widthScreen > 500 ? 12 : 5,
                     ),
                     Text(
                         'Wind: ${double.parse((((widget.currentWeather.wind ?? 0) / 60).toStringAsFixed(2)))} M/S',
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 22)),
-                    const SizedBox(
-                      height: 12,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: widthScreen > 500 ? 22 : 16)),
+                    SizedBox(
+                      height: widthScreen > 500 ? 12 : 5,
                     ),
                     Text('Humidity: ${widget.currentWeather.humidity ?? 0}%',
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 22)),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: widthScreen > 500 ? 22 : 16)),
                   ],
                 ),
               ),
               const Spacer(),
               Expanded(
-                flex: 2,
+                flex: widthScreen <= 1000 ? 3 : 1,
                 // width: widthScreen * 0.1,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: widthScreen > 500
+                      ? CrossAxisAlignment.center
+                      : CrossAxisAlignment.start,
                   children: [
                     Image.network(
                       'https:${widget.currentWeather.conditionIcon ?? ''}',
-                      scale: 0.7,
+                      scale: widthScreen > 500 ? 0.7 : 1,
                       errorBuilder: (context, error, stackTrace) {
                         return Container();
                       },
                     ),
                     Text(widget.currentWeather.conditionText ?? '',
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 21)),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: widthScreen > 500 ? 21 : 16)),
                   ],
                 ),
               )
@@ -149,7 +159,7 @@ class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
                   ? FontAwesomeIcons.solidBookmark
                   : FontAwesomeIcons.bookmark,
               color: Colors.white,
-              size: 36,
+              size: widthScreen > 500 ? 36 : 24,
             ),
           ),
         ),

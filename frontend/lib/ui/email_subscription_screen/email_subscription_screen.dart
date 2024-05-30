@@ -300,7 +300,14 @@ class _EmailSubscriptionScreenState extends State<EmailSubscriptionScreen> {
                               },
                               color: primaryColor,
                               size: 66,
-                              text: 'Subscribe'),
+                              content: const Text(
+                        'Subscribe',
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 1,
+                            color: Colors.white),
+                      )),
                         ],
                       ),
                     )
@@ -357,7 +364,14 @@ class _EmailSubscriptionScreenState extends State<EmailSubscriptionScreen> {
                             },
                             color: primaryColor,
                             size: 66,
-                            text: 'Unsubscribe'),
+                            content: const Text(
+                        'Unsubscribe',
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 1,
+                            color: Colors.white),
+                      )),
                       ],
                     ),
             ),

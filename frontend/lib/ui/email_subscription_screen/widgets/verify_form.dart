@@ -97,7 +97,14 @@ class _VerifyFormState extends State<VerifyForm> {
               },
               color: primaryColor,
               size: 66,
-              text: 'Confirm'),
+              content: const Text(
+                'Confirm',
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: 1,
+                    color: Colors.white),
+              )),
           const SizedBox(
             height: 15,
           ),

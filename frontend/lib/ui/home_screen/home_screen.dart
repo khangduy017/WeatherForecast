@@ -79,19 +79,28 @@ class _HomeScreenState extends State<HomeScreen> {
       EasyLoading.dismiss();
     }
     double widthScreen = MediaQuery.of(context).size.width;
+    double menuMargin = 200;
+    if (widthScreen <= 600) {
+      menuMargin = 250;
+    } else if (widthScreen <= 900) {
+      menuMargin = 240;
+    } else if (widthScreen <= 1100) {
+      menuMargin = 220;
+    }
+    logger.d(widthScreen);
 
     return Scaffold(
       backgroundColor: backgroudColor,
       appBar: AppBar(
         backgroundColor: primaryColor,
         toolbarHeight: 100,
-        title: const Text(
+        title: Text(
           'Weather Dashboard',
           style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w600,
               letterSpacing: 1,
-              fontSize: 36),
+              fontSize: widthScreen < 500 ? 26 : 36),
         ),
         actions: [
           Container(
@@ -100,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
               alignmentOffset: const Offset(0, 5),
               style: MenuStyle(
                 fixedSize: MaterialStateProperty.all(
-                    Size.fromWidth(200 + widthScreen * 0.07)),
+                    Size.fromWidth(menuMargin + widthScreen * (0.07))),
                 backgroundColor: MaterialStateProperty.all(Colors.white),
               ),
               builder: (BuildContext context, MenuController controller,
@@ -147,40 +156,72 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: widthScreen * 0.025, vertical: 50),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: SearchFormWidget(
-                  onSearch: (value) {
-                    location = value;
-                    getWeatherData();
-                    setState(() {
-                      loading = true;
-                    });
-                  },
-                ),
-              ),
-              SizedBox(width: widthScreen * 0.035),
-              Expanded(
-                flex: 2,
-                child: Column(
+              horizontal: widthScreen * 0.025,
+              vertical: widthScreen < 475 ? 20 : 50),
+          child: widthScreen < 950
+              ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CurrentWeatherWidget(
-                      currentWeather: currentWeather,
+                    SearchFormWidget(
+                      onSearch: (value) {
+                        location = value;
+                        getWeatherData();
+                        setState(() {
+                          loading = true;
+                        });
+                      },
                     ),
-                    const SizedBox(height: 30),
-                    DayForecastWidget(
-                      forecastWeather: forecastWeather,
-                      location: location,
+                    const SizedBox(
+                      height: 50,
                     ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CurrentWeatherWidget(
+                          currentWeather: currentWeather,
+                        ),
+                        const SizedBox(height: 30),
+                        DayForecastWidget(
+                          forecastWeather: forecastWeather,
+                          location: location,
+                        ),
+                      ],
+                    )
+                  ],
+                )
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: SearchFormWidget(
+                        onSearch: (value) {
+                          location = value;
+                          getWeatherData();
+                          setState(() {
+                            loading = true;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(width: widthScreen * 0.035),
+                    Expanded(
+                      flex: 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CurrentWeatherWidget(
+                            currentWeather: currentWeather,
+                          ),
+                          const SizedBox(height: 30),
+                          DayForecastWidget(
+                            forecastWeather: forecastWeather,
+                            location: location,
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
-              )
-            ],
-          ),
         ),
       ),
     );
