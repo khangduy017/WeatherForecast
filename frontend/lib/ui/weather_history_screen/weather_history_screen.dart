@@ -1,13 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:frontend/constants/colors.dart';
 import 'package:frontend/models/current_weather.dart';
 import 'package:frontend/ui/weather_history_screen/widgets/current_weather_widget.dart';
 import 'package:frontend/utils/logger.dart';
-import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WeatherHistoryScreen extends StatefulWidget {
@@ -44,13 +40,20 @@ class _WeatherHistoryScreenState extends State<WeatherHistoryScreen> {
 
   List<CurrentWeather> filterByCurrentDate(List<CurrentWeather> weatherData) {
     final today = DateTime.now();
-    DateFormat format1 = DateFormat("yyyy-MM-dd HH:mm");
 
     return weatherData.where((weather) {
-      final weatherDate = format1.parse(weather.time!);
-      return weatherDate.year == today.year &&
-          weatherDate.month == today.month &&
-          weatherDate.day == today.day;
+      try {
+        DateTime.parse(weather.time!);
+        String datePart1 = weather.time!.split(' ')[0];
+        String datePart2 = today.toString().split(' ')[0];
+
+        logger.d('datePart1: $datePart1');
+        logger.d('datePart2: $datePart2');
+
+        return datePart1 == datePart2;
+      } catch (e) {
+        return true;
+      }
     }).toList();
   }
 
