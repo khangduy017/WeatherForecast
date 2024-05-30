@@ -7,7 +7,7 @@ import cors from 'cors';
 import globalErrorhandler from "./controllers/ErrorController.js"
 import weatherRouter from './routes/weatherRoutes.js';
 import subscribeForecastRouter from './routes/subscribeForecastRoutes.js';
-
+// import './cron-job.js';
 
 const limiter = rateLimit({
   // limiter is now become a middleware function

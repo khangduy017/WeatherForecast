@@ -6,11 +6,11 @@ dotenv.config({ path: './config.env' });
 
 const port = process.env.PORT || 5000;
 
-// mongoose
-//     .connect(process.env.DATABASE)
-//     .then(() => {
-//         console.log('Connected to DB successfully');
-//     });
+mongoose
+    .connect(process.env.DATABASE)
+    .then(() => {
+        console.log('Connected to DB successfully');
+    });
 
 const server = app.listen(port, async () => {
     console.log(`App is running on port ${port}...`);

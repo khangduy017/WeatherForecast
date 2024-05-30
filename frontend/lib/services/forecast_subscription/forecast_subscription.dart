@@ -26,12 +26,12 @@ class ForecastSubscriptionService {
       );
     } on DioException catch (e) {
       logger.e(
-        "DioException :${e.response}",
+        "DioException :${e.response!.data['message']}",
       );
 
       return ResponseAPI<dynamic>(
         statusCode: 400,
-        data: [],
+        data: e.response!.data['message'],
       );
     } catch (e) {
       logger.e("Unexpected Error: $e");
@@ -39,11 +39,12 @@ class ForecastSubscriptionService {
     }
   }
 
-    Future<ResponseAPI<dynamic>> verifyCode(String email,String code) async {
+  Future<ResponseAPI<dynamic>> verifyCode(
+      String email, String code, String location) async {
     try {
       final res = await dio.post(
         '$baseURL/subscribe-forecast/verify-code',
-        data: {'email': email,'code': code},
+        data: {'email': email, 'code': code, 'location': location},
       );
 
       logger.d(res.data['data']);
@@ -60,6 +61,34 @@ class ForecastSubscriptionService {
       return ResponseAPI<dynamic>(
         statusCode: 400,
         data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+    Future<ResponseAPI<dynamic>> unsubsribeForecastWeather(String email) async {
+    try {
+      final res = await dio.post(
+        '$baseURL/subscribe-forecast/unsubscribe-forecast',
+        data: {'email': email},
+      );
+
+      logger.d(res.data['data']);
+      logger.i('UNsubscribe EMAIL');
+      return ResponseAPI<dynamic>(
+        statusCode: res.statusCode,
+        data: {},
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response!.data['message']}",
+      );
+
+      return ResponseAPI<dynamic>(
+        statusCode: 400,
+        data: e.response!.data['message'],
       );
     } catch (e) {
       logger.e("Unexpected Error: $e");

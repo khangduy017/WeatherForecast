@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:frontend/constants/colors.dart';
+import 'package:frontend/functions/determinePosition.dart';
 import 'package:frontend/functions/showToast.dart';
 import 'package:frontend/services/forecast_subscription/forecast_subscription.dart';
 import 'package:frontend/services/reponse.dart';
@@ -24,11 +26,15 @@ class ConfirmEmailDialog extends StatefulWidget {
 class _ConfirmEmailDialogState extends State<ConfirmEmailDialog> {
   ForecastSubscriptionService forecastSubscriptionService =
       ForecastSubscriptionService();
+  bool loading = false;
 
   void verifyCode(String email, String code) async {
+    String location = await determinePosition();
     ResponseAPI responseAPI =
-        await forecastSubscriptionService.verifyCode(email, code);
-
+        await forecastSubscriptionService.verifyCode(email, code, location);
+    setState(() {
+      loading = false;
+    });
     if (responseAPI.statusCode == 200) {
       widget.success();
       // showDialog(
@@ -54,6 +60,11 @@ class _ConfirmEmailDialogState extends State<ConfirmEmailDialog> {
 
   @override
   Widget build(BuildContext context) {
+    if (loading) {
+      EasyLoading.show(status: 'Loading...');
+    } else {
+      EasyLoading.dismiss();
+    }
     final screenSize = MediaQuery.of(context).size;
     double formHeight = screenSize.height * 0.6;
     double formWidth = screenSize.width * 0.35;
@@ -116,6 +127,9 @@ class _ConfirmEmailDialogState extends State<ConfirmEmailDialog> {
                   ),
                   VerifyForm(
                     onVerify: (p0) {
+                      setState(() {
+                        loading = true;
+                      });
                       verifyCode(widget.email, p0);
                       // ToastService.show(
                       //     context: context,

@@ -21,7 +21,6 @@ class CurrentWeatherWidget extends StatefulWidget {
 }
 
 class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
-
   Future<void> saveWeatherData(CurrentWeather currentWeather) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -45,7 +44,6 @@ class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
     // TODO: implement initState
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +102,7 @@ class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
               ),
               const Spacer(),
               Expanded(
-                flex: 1,
+                flex: 2,
                 // width: widthScreen * 0.1,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

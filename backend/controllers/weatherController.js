@@ -54,8 +54,6 @@ const getWeather = catchAsync(async (req, res) => {
         data: {},
       });
     }
-
-
   }
 
   res.status(200).json({

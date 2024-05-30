@@ -61,7 +61,7 @@ class _EmailSubscriptionScreenState extends State<EmailSubscriptionScreen> {
       });
       ToastService.show(
           context: context,
-          message: 'Email is invalid! Please try again.',
+          message: responseAPI.data.toString(),
           status: StatusToast.error);
     }
   }
@@ -69,6 +69,49 @@ class _EmailSubscriptionScreenState extends State<EmailSubscriptionScreen> {
   Future<void> removeSubscribeGmail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('subscribeGmail');
+  }
+
+  void unsubscribeForecastWeather() async {
+    String? email = '';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool containsKey = prefs.containsKey('subscribeGmail');
+    if (containsKey) {
+      email = prefs.getString('subscribeGmail');
+    }
+    if (email == null || email.isEmpty) {
+      ToastService.show(
+          context: context,
+          message: 'Unsubscribe successful!',
+          status: StatusToast.success);
+      setState(() {
+        loading = false;
+        subscription = false;
+      });
+      removeSubscribeGmail();
+      return;
+    }
+    ResponseAPI responseAPI =
+        await forecastSubscriptionService.unsubsribeForecastWeather(email);
+
+    if (responseAPI.statusCode == 200) {
+      setState(() {
+        loading = false;
+        subscription = false;
+      });
+      ToastService.show(
+          context: context,
+          message: 'Unsubscribe successful!',
+          status: StatusToast.success);
+      removeSubscribeGmail();
+    } else {
+      setState(() {
+        loading = false;
+      });
+      ToastService.show(
+          context: context,
+          message: 'Ubsubscribe failed!',
+          status: StatusToast.error);
+    }
   }
 
   @override
@@ -282,10 +325,10 @@ class _EmailSubscriptionScreenState extends State<EmailSubscriptionScreen> {
                         ),
                         MyButton(
                             onPressed: () {
-                              removeSubscribeGmail();
                               setState(() {
-                                subscription = false;
+                                loading = true;
                               });
+                              unsubscribeForecastWeather();
                             },
                             color: primaryColor,
                             size: 66,
