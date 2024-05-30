@@ -21,6 +21,9 @@ class CurrentWeatherWidget extends StatefulWidget {
 }
 
 class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
+  bool isSaved = false;
+  CurrentWeather preCurrentWeather = CurrentWeather();
+
   Future<void> saveWeatherData(CurrentWeather currentWeather) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -53,6 +56,10 @@ class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
       paddingRight = widthScreen * 0.04;
     }
     logger.d('Rebuild');
+    if (preCurrentWeather != widget.currentWeather) {
+      isSaved = false;
+      preCurrentWeather = widget.currentWeather;
+    }
 
     return Container(
       decoration: const BoxDecoration(
@@ -133,10 +140,16 @@ class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
                   context: context,
                   message: 'Save weather informatin successfully!',
                   status: StatusToast.success);
+              setState(() {
+                isSaved = true;
+              });
             },
-            child: const FaIcon(
-              FontAwesomeIcons.solidBookmark,
+            child: FaIcon(
+              isSaved
+                  ? FontAwesomeIcons.solidBookmark
+                  : FontAwesomeIcons.bookmark,
               color: Colors.white,
+              size: 36,
             ),
           ),
         ),

@@ -39,6 +39,34 @@ class ForecastSubscriptionService {
     }
   }
 
+    Future<ResponseAPI<dynamic>> resendCode(String email) async {
+    try {
+      final res = await dio.post(
+        '$baseURL/subscribe-forecast/resend-code',
+        data: {'email': email},
+      );
+
+      logger.d(res.data['data']);
+      logger.i('resend CODE');
+      return ResponseAPI<dynamic>(
+        statusCode: res.statusCode,
+        data: res.data['data'],
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response!.data['message']}",
+      );
+
+      return ResponseAPI<dynamic>(
+        statusCode: 400,
+        data: e.response!.data['message'],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
   Future<ResponseAPI<dynamic>> verifyCode(
       String email, String code, String location) async {
     try {

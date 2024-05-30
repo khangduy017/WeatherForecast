@@ -53,6 +53,25 @@ class _ConfirmEmailDialogState extends State<ConfirmEmailDialog> {
     }
   }
 
+  void resendCode(String email) async {
+    ResponseAPI responseAPI =
+        await forecastSubscriptionService.resendCode(email);
+
+    if (responseAPI.statusCode == 200) {
+      setState(() {
+        loading = false;
+      });
+    } else {
+      setState(() {
+        loading = false;
+      });
+      ToastService.show(
+          context: context,
+          message: responseAPI.data.toString(),
+          status: StatusToast.error);
+    }
+  }
+
   Future<void> saveSubscribeGmail(String gmail) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('subscribeGmail', gmail);
@@ -136,6 +155,12 @@ class _ConfirmEmailDialogState extends State<ConfirmEmailDialog> {
                       //     message:
                       //         'Your OTP code is incorrect, please check it again!',
                       //     status: StatusToast.error);
+                    },
+                    resendCode: () {
+                      setState(() {
+                        loading = true;
+                      });
+                      resendCode(widget.email);
                     },
                   )
                 ],

@@ -8,8 +8,10 @@ import 'package:frontend/widgets/shake_error.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyForm extends StatefulWidget {
-  const VerifyForm({Key? key, required this.onVerify}) : super(key: key);
+  const VerifyForm({Key? key, required this.onVerify, required this.resendCode})
+      : super(key: key);
   final Function(String) onVerify;
+  final Function() resendCode;
 
   @override
   _VerifyFormState createState() => _VerifyFormState();
@@ -42,12 +44,16 @@ class _VerifyFormState extends State<VerifyForm> {
                   shakeCount: 3,
                   shakeOffset: 10,
                   child: PinCodeTextField(
-                    onCompleted: (value) {
-                      print(value);
-                    },
+                    // onCompleted: (value) {
+                    //   print(value);
+                    // },
                     onChanged: (value) {},
-                    beforeTextPaste: (text) {
-                      return true;
+                    // beforeTextPaste: (text) {
+                    //   return true;
+                    // },
+                    onSubmitted: (value) {
+                      logger.d(value);
+                      widget.onVerify(value);
                     },
                     appContext: context,
                     controller: otpCode,
@@ -106,7 +112,9 @@ class _VerifyFormState extends State<VerifyForm> {
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  widget.resendCode();
+                },
                 child: const Text(
                   'Resend',
                   style: TextStyle(

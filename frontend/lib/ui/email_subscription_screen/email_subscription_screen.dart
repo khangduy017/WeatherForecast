@@ -24,6 +24,7 @@ class _EmailSubscriptionScreenState extends State<EmailSubscriptionScreen> {
       ForecastSubscriptionService();
   bool subscription = false;
   bool loading = false;
+  String email = '';
 
   @override
   void initState() {
@@ -36,6 +37,9 @@ class _EmailSubscriptionScreenState extends State<EmailSubscriptionScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool containsKey = prefs.containsKey('subscribeGmail');
     subscription = containsKey;
+    if (containsKey) {
+      email = prefs.getString('subscribeGmail') ?? '';
+    }
     setState(() {});
   }
 
@@ -46,6 +50,7 @@ class _EmailSubscriptionScreenState extends State<EmailSubscriptionScreen> {
     if (responseAPI.statusCode == 200) {
       setState(() {
         loading = false;
+        email = email;
       });
       showDialog(
           context: context,
@@ -314,11 +319,31 @@ class _EmailSubscriptionScreenState extends State<EmailSubscriptionScreen> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Text(
-                          'Every morning, we will send the weather information to the email address you registered with.',
-                          style: TextStyle(
+                        Text.rich(
+                          TextSpan(
+                            text:
+                                'Every morning, we will send the weather information to the email address ',
+                            style: const TextStyle(
                               fontSize: 16,
-                              color: Color.fromARGB(255, 160, 160, 160)),
+                              color: Color.fromARGB(255, 160, 160, 160),
+                            ),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: email,
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 90, 90, 90)),
+                              ),
+                              const TextSpan(
+                                text: '.',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(255, 160, 160, 160),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(
                           height: 40,
