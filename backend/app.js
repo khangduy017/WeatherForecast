@@ -14,7 +14,7 @@ const limiter = rateLimit({
   max: 1000,
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, please try this again in an hour!',
-}); // define how many requests per IP we are going to allow in a certain of time
+});
 
 const app = express();
 app.use(limiter);
