@@ -23,9 +23,11 @@ My name is Dinh Nguyen Duy Khang. I have fully completed the required features o
 
 # Frontend
 -   Flutter
+-   Deploy: [https://vercel.com](https://vercel.com/)
   
 # Backend
 -   NodeJs
+-   Deploy: [https://render.com](https://render.com/)
 
 # INSTRUCTION
 
