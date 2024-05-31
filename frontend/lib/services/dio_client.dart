@@ -11,7 +11,7 @@ class DioClient {
   late Dio _dio;
 
   final List<Interceptor> interceptors;
-  // Global options
+  // Global optionsø
 
   DioClient(
     Dio dio, {
