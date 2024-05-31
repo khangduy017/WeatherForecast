@@ -116,7 +116,7 @@ class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
               ),
               const Spacer(),
               Expanded(
-                flex: widthScreen <= 1000 ? 3 : 1,
+                flex: widthScreen <= 1000 ? 3 : 2,
                 // width: widthScreen * 0.1,
                 child: Column(
                   crossAxisAlignment: widthScreen > 500

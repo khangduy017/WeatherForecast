@@ -44,6 +44,7 @@ class DayForecastItem extends StatelessWidget {
                     height: 10,
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Temp: ${forecastWeather.temperature ?? 0}°C',
                           style: const TextStyle(
@@ -88,6 +89,7 @@ class DayForecastItem extends StatelessWidget {
                     height: 10,
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Temp: ${forecastWeather.temperature ?? 0}°C',
                           style: const TextStyle(
