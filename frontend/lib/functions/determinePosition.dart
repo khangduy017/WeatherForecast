@@ -1,29 +1,36 @@
 import 'dart:html';
+import 'package:frontend/utils/logger.dart';
 import 'package:geolocator/geolocator.dart';
 
 Future<String> determinePosition() async {
-  //check PERMISSION
-  bool serviceEnabled;
-  LocationPermission permission;
+  try {
+    //check PERMISSION
+    bool serviceEnabled;
+    LocationPermission permission;
 
-  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
-  if (!serviceEnabled) {
-    Geolocator.requestPermission();
-  }
-  permission = await Geolocator.checkPermission();
-
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied) {
-      return Future.error('Location permission denied');
+    if (!serviceEnabled) {
+      Geolocator.requestPermission();
     }
-  }
-  if (permission == LocationPermission.deniedForever) {
-    return Future.error('Location permissions are permanently denied');
-  }
+    permission = await Geolocator.checkPermission();
 
-  Position position = await Geolocator.getCurrentPosition();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        logger.d('Location permission denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      logger.d('Location permissions are permanently denied');
+    }
 
-  return '${position.latitude},${position.longitude}';
+    Position position = await Geolocator.getCurrentPosition();
+
+    return '${position.latitude},${position.longitude}';
+  } catch (e) {
+    return 'Ho Chi Minh';
+    // return Future.error('Location permission denied');
+  }
+  return 'Ho Chi Minh';
 }

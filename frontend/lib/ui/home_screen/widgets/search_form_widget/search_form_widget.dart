@@ -159,7 +159,12 @@ class _SearchFormWidgetState extends State<SearchFormWidget> {
             ? MyButton(
                 onPressed: () async {
                   EasyLoading.show();
-                  String latLng = await determinePosition();
+                  String latLng = 'Ho Chi Minh';
+                  try {
+                    String latLng = await determinePosition();
+                  } catch (error) {
+                    logger.d(error);
+                  }
                   logger.d(latLng);
                   widget.onSearch(latLng);
                   inputController.clear();
