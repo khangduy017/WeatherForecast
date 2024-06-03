@@ -37,11 +37,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void getCurrentWeather() async {
-    location = await determinePosition();
+    // location = await determinePosition();
     getWeatherData();
   }
 
   void getWeatherData() async {
+    logger.d('vao day');
     ResponseAPI result = await weatherService.getCurrentWeather(location);
     if (result.statusCode == 200) {
       setState(() {

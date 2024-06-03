@@ -12,6 +12,7 @@ class WeatherService {
   var dio = Dio();
 
   Future<ResponseAPI<dynamic>> getCurrentWeather(String location) async {
+    logger.d(location);
     try {
       final res = await dio.post(
         '$baseURL/weather/get-current-weather',
