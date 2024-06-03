@@ -29,9 +29,9 @@ class _ConfirmEmailDialogState extends State<ConfirmEmailDialog> {
   bool loading = false;
 
   void verifyCode(String email, String code) async {
-    String location = await determinePosition();
-    ResponseAPI responseAPI =
-        await forecastSubscriptionService.verifyCode(email, code, location);
+    // String location = await determinePosition();
+    ResponseAPI responseAPI = await forecastSubscriptionService.verifyCode(
+        email, code, 'Ho Chi Minh');
     setState(() {
       loading = false;
     });
