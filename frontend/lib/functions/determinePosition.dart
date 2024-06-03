@@ -19,10 +19,12 @@ Future<String> determinePosition() async {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         logger.d('Location permission denied');
+        return 'Ho Chi Minh';
       }
     }
     if (permission == LocationPermission.deniedForever) {
       logger.d('Location permissions are permanently denied');
+      return 'Ho Chi Minh';
     }
 
     Position position = await Geolocator.getCurrentPosition();

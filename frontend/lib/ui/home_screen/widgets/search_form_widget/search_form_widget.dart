@@ -161,7 +161,7 @@ class _SearchFormWidgetState extends State<SearchFormWidget> {
                   EasyLoading.show();
                   String latLng = 'Ho Chi Minh';
                   try {
-                    String latLng = await determinePosition();
+                    latLng = await determinePosition();
                   } catch (error) {
                     logger.d(error);
                   }
